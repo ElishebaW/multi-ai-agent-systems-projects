@@ -72,8 +72,6 @@ interview_coach_crew = Crew(
 )
 
 # Run Crew
- 
-
 try:
     # Execute the crew
     result =interview_coach_crew.kickoff()
