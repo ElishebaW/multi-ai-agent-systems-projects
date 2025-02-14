@@ -5,8 +5,7 @@ from tools.web_scraper import WebScraperTool
 
 os.environ["SERPER_API_KEY"] = os.getenv('SERPER_API_KEY')
 os.environ["OPENAI_API_KEY"] = "none"  # This tells CrewAI not to use OpenAI
-os.environ["LOCAL_API_KEY"] = "true" 
-os.environ
+os.environ["LOCAL_API_KEY"] = "true"
 
 # Create the tool instance
 web_scraper_tool = WebScraperTool(web_scraper_tool="https://www.hellointerview.com/learn/code")
