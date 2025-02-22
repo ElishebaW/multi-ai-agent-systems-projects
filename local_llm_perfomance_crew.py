@@ -1,5 +1,4 @@
 import os
-import time
 from crewai import Agent, Task, Crew, Process, LLM
 
 # Set environment variables to force local LLM usage
@@ -14,7 +13,7 @@ qwen_llm = LLM(model="ollama/qwen", base_url="http://localhost:11434")
 
 # Define agents, each using a different local LLM
 llama_agent = Agent(
-    role="Senior Java Engineer",
+    role="Senior Java Engineer - Llama",
     goal="Generate a Fibonacci function using Llama 3.2",
     backstory="An expert Java programmer using Llama 3.2 to solve coding problems.",
     verbose=True,
@@ -22,7 +21,7 @@ llama_agent = Agent(
 )
 
 deepseek_agent = Agent(
-    role="Senior Java Engineer",
+    role="Senior Java Engineer - Deepseek",
     goal="Generate a Fibonacci function using Deepseek-R1",
     backstory="An expert Java programmer using Deepseek-R1 to solve coding problems.",
     verbose=True,
@@ -30,7 +29,7 @@ deepseek_agent = Agent(
 )
 
 mistral_agent = Agent(
-    role="Senior Java Engineer",
+    role="Senior Java Engineer - Mistral",
     goal="Generate a Fibonacci function using Mistral",
     backstory="An expert Java programmer using Mistral to solve coding problems.",
     verbose=True,
@@ -38,7 +37,7 @@ mistral_agent = Agent(
 )
 
 qwen_agent = Agent(
-    role="Senior Java Engineer",
+    role="Senior Java Engineer - Qwen",
     goal="Generate a Fibonacci function using Qwen-7B",
     backstory="An expert Java programmer using Qwen-7B to solve coding problems..",
     verbose=True,
@@ -46,36 +45,42 @@ qwen_agent = Agent(
 )
 
 # Define the task for all agents
-fib_task = Task(
+fib_task_llama = Task(
     description="Write a short Java function that returns the Fibonacci sequence up to a given number.",
     expected_output="A Java function that computes Fibonacci numbers up to n.",
+    output_file="llm_performance.md",
+    agent=llama_agent,
+)
+fib_task_deepseek = Task(
+    description="Write a short Java function that returns the Fibonacci sequence up to a given number.",
+    expected_output="A Java function that computes Fibonacci numbers up to n.",
+    output_file="llm_performance.md",
+    agent=deepseek_agent,
+)
+fib_task_mistral = Task(
+    description="Write a short Java function that returns the Fibonacci sequence up to a given number.",
+    expected_output="A Java function that computes Fibonacci numbers up to n.",
+    output_file="llm_performance.md",
+    agent=mistral_agent,
+)
+fib_task_qwen = Task(
+    description="Write a short Java function that returns the Fibonacci sequence up to a given number.",
+    expected_output="A Java function that computes Fibonacci numbers up to n.",
+    output_file="llm_performance.md",
+    agent=qwen_agent,
 )
 
-# Assign each agent to the task
-fib_task_llama = fib_task.copy(update={"agent": llama_agent})
-fib_task_deepseek = fib_task.copy(update={"agent": deepseek_agent})
-fib_task_mistral = fib_task.copy(update={"agent": mistral_agent})
-fib_task_qwen = fib_task.copy(update={"agent": qwen_agent})
+# # Assign each agent to the task
+# fib_task_llama = fib_task.copy(update={"agent": llama_agent})
+# fib_task_deepseek = fib_task.copy(update={"agent": deepseek_agent})
+# fib_task_mistral = fib_task.copy(update={"agent": mistral_agent})
+# fib_task_qwen = fib_task.copy(update={"agent": qwen_agent})
 
 # Create a crew to execute the tasks in parallel
 crew = Crew(
     agents=[llama_agent, deepseek_agent, mistral_agent, qwen_agent],
     tasks=[fib_task_llama, fib_task_deepseek, fib_task_mistral, fib_task_qwen],
-    process=Process.parallel,  # Run all agents in parallel
+    # process=Process.parallel,  # Run all agents in parallel
 )
 
-# Measure execution time
-start_time = time.time()
 results = crew.kickoff()
-end_time = time.time()
-
-# Calculate and print execution time
-elapsed_time = end_time - start_time
-
-# Print results
-model_names = ["Llama 3.2", "Deepseek-R1", "Mistral", "Qwen-7B"]
-for model, result in zip(model_names, results):
-    print(f"\n### Response from {model}:")
-    print(result)
-
-print(f"\nTotal execution time: {elapsed_time:.2f} seconds")
