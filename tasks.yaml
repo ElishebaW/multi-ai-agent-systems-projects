@@ -1,0 +1,24 @@
+research_task:
+  description: >
+    Research the best ways to prepare for MAANG coding interviews by scraping data from:
+    - NeetCode.io
+    - LeetCode.com
+    - CodeSignal.com
+    - HackerRank.com
+    - HelloInterview.com
+  expected_output: >
+    A structured list of recommended coding exercises, study resources, and strategies.
+
+track_progress_task:
+  description: >
+    Ask the candidate if they completed:
+    - Medium questions in under 25 minutes.
+    - Easy questions in under 15 minutes.
+  expected_output: >
+    A report on whether the candidate met their daily targets.
+
+generate_study_plan_task:
+  description: >
+    Create a detailed study plan by combining research from the Senior Researcher and daily progress from the Junior Interview Coach.
+  expected_output: >
+    A well-structured daily plan that balances practice questions, study materials, and improvement areas.
